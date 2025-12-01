@@ -1,19 +1,24 @@
-
-DECREASE = "L"
-
 file = open("day1input.txt", "r")
 inputs = file.read().split("\n")
 
-startNumber = 50
+DECREASE = "L"
+TOTAL_NUMBER_DIAL = 100 # 0 - 99 -> 100 dials
+LOWEST_DIAL = 0
+HIGHEST_DIAL = 99
 truePassword = 0
+currentNumber = 50
+
 for input in inputs:
     direction = input[0]
     clicks = int(input[1:])
-    numberOnDial = startNumber + (-clicks) if direction == DECREASE else clicks
-    if numberOnDial == 0 :
+    currentNumber = currentNumber - clicks if direction == DECREASE else currentNumber + clicks
+
+    if (currentNumber < LOWEST_DIAL) :
+       currentNumber = TOTAL_NUMBER_DIAL - (abs(currentNumber) % TOTAL_NUMBER_DIAL)
+    if (currentNumber > HIGHEST_DIAL) :
+       currentNumber = (currentNumber % TOTAL_NUMBER_DIAL)
+    
+    if (currentNumber == 0) :
         truePassword += 1
-    else :
-        numberOnDial = 99 - (numberOnDial - 1) if numberOnDial < 0 else (numberOnDial - 1) - 99
-    startNumber = numberOnDial
-        
+    
 print(truePassword)
