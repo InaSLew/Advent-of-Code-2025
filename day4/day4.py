@@ -8,38 +8,28 @@ rows = file.read().split("\n")
 MAX_ROLLS = 4
 A_ROLL = "@"
 
+def checkAdjacentCell(CellIndex, RowIndex, Rows):
+    counter = 0
+    # if previous cell exists -> check
+    if (CellIndex > 0 and CellIndex <= len(Rows[RowIndex]) - 1):
+        counter += 1 if Rows[RowIndex][cellIdx - 1] == A_ROLL else 0
+    # if next cell extsts -> check
+    if(cellIdx == 0 or cellIdx < len(row) - 1):
+        counter += 1 if Rows[RowIndex][cellIdx + 1] == A_ROLL else 0
+    return counter
+
 accessibleCounter = 0
 for rowIdx, row in enumerate(rows):
     for cellIdx, cell in enumerate(row):
-        if (cell == A_ROLL):
-            # for each cell
+        if (cell == A_ROLL): # for each cell that contains "@"
             rollCounter = 0
-            # if previous cell exists -> check
-            if (cellIdx > 0 and cellIdx <= len(row) - 1):
-                rollCounter += 1 if row[cellIdx - 1] == A_ROLL else 0
-            # if next cell extsts -> check
-            if(cellIdx == 0 or cellIdx < len(row) - 1):
-                rollCounter += 1 if row[cellIdx + 1] == A_ROLL else 0
-            # if previous row extsts
-            if (rowIdx > 0):
-            #   -> check right above
-                rollCounter += 1 if rows[rowIdx - 1][cellIdx] == A_ROLL else 0
-            #   -> if previous cell exists -> check
-                if (cellIdx > 0 and cellIdx <= len(row) - 1):
-                    rollCounter += 1 if rows[rowIdx - 1][cellIdx - 1] == A_ROLL else 0
-            #   -> if next cell exists -> check
-                if(cellIdx == 0 or cellIdx < len(row) - 1):
-                    rollCounter += 1 if rows[rowIdx - 1][cellIdx + 1] == A_ROLL else 0
-            # if next row extsts
-            if (rowIdx < len(row) - 1):
-            #   -> check right above
-                rollCounter += 1 if rows[rowIdx + 1][cellIdx] == A_ROLL else 0
-            #   -> if previous cell exists -> check
-                if (cellIdx > 0 and cellIdx <= len(row) - 1):
-                    rollCounter += 1 if rows[rowIdx + 1][cellIdx - 1] == A_ROLL else 0
-            #   -> if next cell exists -> check
-                if(cellIdx == 0 or cellIdx < len(row) - 1):
-                    rollCounter += 1 if rows[rowIdx + 1][cellIdx + 1] == A_ROLL else 0
+            rollCounter += checkAdjacentCell(cellIdx, rowIdx, rows) # check current row
+            if (rowIdx > 0): # if previous row exists
+                rollCounter += 1 if rows[rowIdx - 1][cellIdx] == A_ROLL else 0 # check the cell right above
+                rollCounter += checkAdjacentCell(cellIdx, rowIdx - 1, rows)
+            if (rowIdx < len(row) - 1): # if next row exists
+                rollCounter += 1 if rows[rowIdx + 1][cellIdx] == A_ROLL else 0 # check the cell right above
+                rollCounter += checkAdjacentCell(cellIdx, rowIdx + 1, rows)
             
             if (rollCounter < MAX_ROLLS):
                 accessibleCounter += 1
