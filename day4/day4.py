@@ -8,7 +8,7 @@ rows = file.read().split("\n")
 MAX_ROLLS = 4
 A_ROLL = "@"
 
-def checkAdjacentCell(CellIndex, RowIndex, Rows):
+def checkAdjacentCells(CellIndex, RowIndex, Rows):
     counter = 0
     # if previous cell exists -> check
     if (CellIndex > 0 and CellIndex <= len(Rows[RowIndex]) - 1):
@@ -23,13 +23,13 @@ for rowIdx, row in enumerate(rows):
     for cellIdx, cell in enumerate(row):
         if (cell == A_ROLL): # for each cell that contains "@"
             rollCounter = 0
-            rollCounter += checkAdjacentCell(cellIdx, rowIdx, rows) # check current row
+            rollCounter += checkAdjacentCells(cellIdx, rowIdx, rows) # check current row
             if (rowIdx > 0): # if previous row exists
                 rollCounter += 1 if rows[rowIdx - 1][cellIdx] == A_ROLL else 0 # check the cell right above
-                rollCounter += checkAdjacentCell(cellIdx, rowIdx - 1, rows)
+                rollCounter += checkAdjacentCells(cellIdx, rowIdx - 1, rows)
             if (rowIdx < len(row) - 1): # if next row exists
                 rollCounter += 1 if rows[rowIdx + 1][cellIdx] == A_ROLL else 0 # check the cell right above
-                rollCounter += checkAdjacentCell(cellIdx, rowIdx + 1, rows)
+                rollCounter += checkAdjacentCells(cellIdx, rowIdx + 1, rows)
             
             if (rollCounter < MAX_ROLLS):
                 accessibleCounter += 1
