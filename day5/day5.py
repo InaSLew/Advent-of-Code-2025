@@ -2,22 +2,37 @@
 # count the total sum of numbers in part 2 that is within ANY of the number ranges presented
 #  in part 1.
 
-data = open("day5input.txt", "r").read().split("\n\n")
+# data = open("day5input.txt", "r").read().split("\n\n")
 
-freshIDs = data[0].splitlines()
-produces = [int(p) for p in data[1].splitlines()]
+# freshIDs = data[0].splitlines()
+# produces = [int(p) for p in data[1].splitlines()]
 def getFreshIDs(rangeStr):
     ranges = [int(d) for d in rangeStr.split("-")]
     start = ranges[0]
     end = ranges[1]
     return range(start, end + 1)
 
-counter = 0
-for p in produces:
-    isFresh = False
-    for ID in freshIDs:
-        isFresh = p in getFreshIDs(ID)
-        if (isFresh):
-            counter += 1
-            break
-print(counter)
+# counter = 0
+# for p in produces:
+#     isFresh = False
+#     for ID in freshIDs:
+#         isFresh = p in getFreshIDs(ID)
+#         if (isFresh):
+#             counter += 1
+#             break
+# print(counter)
+
+
+# part 2
+data = '''3-5
+10-14
+16-20
+12-18'''
+freshIDs = data.splitlines()
+
+idk = set()
+for ID in freshIDs:
+    hmm = getFreshIDs(ID)
+    for id in hmm:
+        idk.add(id)
+print(len(idk))
